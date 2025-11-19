@@ -10,20 +10,37 @@
 using namespace std;
 
 class triangle {
-    double a, b, c;
+    float a, b, c;
 public:
-    triangle(double x=0, double y=0, double z=0) : a(x), b(y), c(z) {}
-    bool isIsosceles() const { return (a==b) || (b==c) || (a==c); }
-    bool isEquilateral() const { return (a==b) && (b==c); }
+    triangle(float x, float y, float z) {
+        a = x;
+        b = y;
+        c = z;
+    }
+
+    bool isIsosceles() {
+        return (a == b) || (b == c) || (a == c);
+    }
+
+    bool isEquilateral() {
+        return (a == b) && (b == c);
+    }
 };
 
 int main() {
-    double x,y,z;
+    float x, y, z;
+
     cout << "Enter three sides: ";
-    if(!(cin>>x>>y>>z)) return 0;
-    triangle t(x,y,z);
-    if (t.isEquilateral()) cout << "Equilateral\n";
-    else if (t.isIsosceles()) cout << "Isosceles\n";
-    else cout << "Scalene\n";
+    cin >> x >> y >> z;
+
+    triangle t(x, y, z);
+
+    if (t.isEquilateral())
+        cout << "Equilateral\n";
+    else if (t.isIsosceles())
+        cout << "Isosceles\n";
+    else
+        cout << "Scalene\n";
+
     return 0;
 }
