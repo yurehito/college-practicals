@@ -1,36 +1,41 @@
-// Write a C program to show the Stop-and-Wait Algorithm.
-
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 
-int main()
-{
-    int n, i;
-    int ack;
+#define TOTAL_FRAMES 5
+#define TIMEOUT 2 
 
-    printf("Enter the number of frames: ");
-    scanf("%d", &n);
+int receive_ack() {
+    return rand() % 10 < 7;
+}
 
-    for(i = 1; i <= n; i++)
-    {
-        printf("\nSending Frame %d...", i);
-
-        printf("\nDid Frame %d receive acknowledgement? (1 = Yes, 0 = No): ", i);
-        scanf("%d", &ack);
-
-        if(ack == 1)
-        {
-            printf("Acknowledgement received for Frame %d.\n", i);
-        }
-        else
-        {
-            printf("Acknowledgement not received.\n");
-            printf("Retransmitting Frame %d...\n", i);
-
-            printf("Acknowledgement received for Frame %d.\n", i);
+int main() {
+    int frame = 1;
+    int ack_received;
+    
+       srand(time(NULL)); 
+    
+    printf("--- Stop and Wait Protocol Simulation ---\n\n");
+    
+    while (frame <= TOTAL_FRAMES) {
+        printf("[SENDER]  Sending Frame %d...\n", frame);
+        
+       
+        sleep(TIMEOUT); 
+        
+        ack_received = receive_ack();
+        
+        if (ack_received) {
+            printf("[RECEIVER] Frame %d received successfully.\n", frame);
+            printf("[SENDER]   ACK received for Frame %d.\n\n", frame);
+            frame++; 
+        } else {
+            printf("[TIMEOUT]  No ACK received for Frame %d. Resending...\n\n", frame);
+           
         }
     }
-
-    printf("\nAll frames transmitted successfully.\n");
-
+    
+    printf("All %d frames sent and acknowledged successfully.\n", TOTAL_FRAMES);
     return 0;
 }
